@@ -30,12 +30,12 @@ namespace DosyaVeKlasorIslemleri
                     sinif = Console.ReadLine();
                     sinif_klasor_yolu = @"C:\Okul\" + sinif;
                     ogrenci_klasor_yolu = @"C:\Okul\" + sinif + "\\" + ogrno;
-                    if (System.IO.Directory.Exists(sinif_klasor_yolu) == true && System.IO.Directory.Exists(ogrenci_klasor_yolu) == false)
+                    if (Directory.Exists(sinif_klasor_yolu) == true && Directory.Exists(ogrenci_klasor_yolu) == false)
                     {
-                        System.IO.Directory.CreateDirectory(ogrenci_klasor_yolu);
+                        Directory.CreateDirectory(ogrenci_klasor_yolu);
                         string dosya_adi = ogrno + ".txt";
-                        string hedef_dosya_yolu = System.IO.Path.Combine(ogrenci_klasor_yolu, dosya_adi);
-                        System.IO.File.Create(hedef_dosya_yolu).Close();
+                        string hedef_dosya_yolu = Path.Combine(ogrenci_klasor_yolu, dosya_adi);
+                        File.Create(hedef_dosya_yolu).Close();
                         Console.WriteLine("{0} Numralı öğrenci için klasör ve dosya oluşturulmuştur.", ogrno);
 
                         string ad, soyad, cinsiyet, telno, adres;
@@ -59,18 +59,18 @@ namespace DosyaVeKlasorIslemleri
                             "Telefon no :" + telno,
                             "Adres :" + adres
                         };
-                        System.IO.File.WriteAllLines(@"C:\Okul\" + sinif + "\\" + ogrno + "\\" + ogrno + ".txt", ogrbilgi);
+                        File.WriteAllLines(@"C:\Okul\" + sinif + "\\" + ogrno + "\\" + ogrno + ".txt", ogrbilgi);
                         Console.Write("Öğrenci bilgileri başarı ile kaydedilmiştir.");
                         Console.ReadKey();
                         goto BASADON;
                     }
-                    if (System.IO.Directory.Exists(sinif_klasor_yolu) == false)
+                    if (Directory.Exists(sinif_klasor_yolu) == false)
                     {
                         Console.Clear();
                         Console.Write("Okulda {0} isminde sınıf yoktur", sinif);
                         goto BASADON;
                     }
-                    if (System.IO.Directory.Exists(ogrenci_klasor_yolu) == true)
+                    if (Directory.Exists(ogrenci_klasor_yolu) == true)
                     {
                         Console.Clear();
                         Console.Write("Okulda {0} sınıfında {1} numaralı ogrenci zaten mevcutdur!", sinif, ogrno);
@@ -82,15 +82,15 @@ namespace DosyaVeKlasorIslemleri
                     Console.Clear();
                     Console.Write("Öğrencinin numarasını girin:");
                     ogrno = Console.ReadLine();
-                    System.IO.DirectoryInfo klasorbilgisi = new System.IO.DirectoryInfo("C:\\Okul");
-                    System.IO.FileInfo[] dosyalar = klasorbilgisi.GetFiles(ogrno + ".txt", System.IO.SearchOption.AllDirectories);
+                    DirectoryInfo klasorbilgisi = new DirectoryInfo("C:\\Okul");
+                    FileInfo[] dosyalar = klasorbilgisi.GetFiles(ogrno + ".txt", SearchOption.AllDirectories);
                     int adet = dosyalar.Length;
                     if (adet > 0)
                     {
                         string ogrenci_dosya_yolu = dosyalar[0].DirectoryName;
                         string ogrenci_dosya_adi = ogrno + ".txt";
-                        string ogrenci_hedef_yolu = System.IO.Path.Combine(ogrenci_dosya_yolu, ogrenci_dosya_adi);
-                        string[] ogrenci_bilgileri = System.IO.File.ReadAllLines(ogrenci_hedef_yolu);
+                        string ogrenci_hedef_yolu = Path.Combine(ogrenci_dosya_yolu, ogrenci_dosya_adi);
+                        string[] ogrenci_bilgileri = File.ReadAllLines(ogrenci_hedef_yolu);
                     GUNCELLEME:
                         Console.Clear();
                         foreach (string eleman in ogrenci_bilgileri)
@@ -106,7 +106,7 @@ namespace DosyaVeKlasorIslemleri
                             Console.Clear();
                             Console.Write("Telefon no giriniz?");
                             ogrenci_bilgileri[4] = "Telefon no :" + Console.ReadLine();
-                            System.IO.File.WriteAllLines(ogrenci_hedef_yolu, ogrenci_bilgileri);
+                            File.WriteAllLines(ogrenci_hedef_yolu, ogrenci_bilgileri);
                             Console.Clear();
                             Console.WriteLine("Telefon no bilgisi güncellenmiştir.");
                             foreach (string eleman in ogrenci_bilgileri)
@@ -136,7 +136,7 @@ namespace DosyaVeKlasorIslemleri
                             Console.Clear();
                             Console.Write("Adres giriniz?");
                             ogrenci_bilgileri[5] = "Adres :" + Console.ReadLine();
-                            System.IO.File.WriteAllLines(ogrenci_hedef_yolu, ogrenci_bilgileri);
+                            File.WriteAllLines(ogrenci_hedef_yolu, ogrenci_bilgileri);
                             Console.Write("Adres bilgisi güncellenmiştir.");
                             foreach (string eleman in ogrenci_bilgileri)
                             {
@@ -167,8 +167,8 @@ namespace DosyaVeKlasorIslemleri
                     Console.Clear();
                     Console.Write("Öğrenci numarasını giriniz?");
                     ogrno = Console.ReadLine();
-                    System.IO.DirectoryInfo silinecek_klasor_bilgisi = new DirectoryInfo("C:\\Okul");
-                    System.IO.FileInfo[] dosya_dizisi = silinecek_klasor_bilgisi.GetFiles(ogrno + ".txt", System.IO.SearchOption.AllDirectories);
+                    DirectoryInfo silinecek_klasor_bilgisi = new DirectoryInfo("C:\\Okul");
+                    FileInfo[] dosya_dizisi = silinecek_klasor_bilgisi.GetFiles(ogrno + ".txt", SearchOption.AllDirectories);
                     int bulunan_dosya_adeti = dosya_dizisi.Length;
                     if (bulunan_dosya_adeti > 0)
                     {
@@ -181,7 +181,7 @@ namespace DosyaVeKlasorIslemleri
                         if (silme_onayi == "E")
                         {
                             Console.Clear();
-                            System.IO.Directory.Delete(silinecek_dosya_yolu, true);
+                            Directory.Delete(silinecek_dosya_yolu, true);
                             Console.WriteLine("{0} Sınıfında {1} numaralı öğrenci silinmiştir.", klasor_dizisi[2], ogrno);
                             Console.ReadKey();
                             goto BASADON;
@@ -213,8 +213,8 @@ namespace DosyaVeKlasorIslemleri
                     Console.Clear();
                     Console.Write("Öğrenci numarasını giriniz :");
                     ogrno = Console.ReadLine();
-                    System.IO.DirectoryInfo tasinacak_klasor_bilgisi = new DirectoryInfo("C:\\Okul");
-                    System.IO.FileInfo[] bulunan_dosyalar = tasinacak_klasor_bilgisi.GetFiles(ogrno + ".txt", System.IO.SearchOption.AllDirectories);
+                    DirectoryInfo tasinacak_klasor_bilgisi = new DirectoryInfo("C:\\Okul");
+                    FileInfo[] bulunan_dosyalar = tasinacak_klasor_bilgisi.GetFiles(ogrno + ".txt", SearchOption.AllDirectories);
                     int bulunan_dosyalar_adeti = bulunan_dosyalar.Length;
                     if (bulunan_dosyalar_adeti > 0)
                     {
@@ -223,10 +223,10 @@ namespace DosyaVeKlasorIslemleri
                         string[] klasorler = tasinacak_klasor_yolu.Split("\\");
                         Console.Write("{0} Sınıfındaki öğrenci hangi sınıfa taşınacak ?", klasorler[2]);
                         string tasinacak_klasor_adi = Console.ReadLine();
-                        if (System.IO.Directory.Exists("C:\\Okul" + "\\" + tasinacak_klasor_adi) == true)
+                        if (Directory.Exists("C:\\Okul" + "\\" + tasinacak_klasor_adi) == true)
                         {
                             string hedef_klasor_yolu = @"C:\Okul" + "\\" + tasinacak_klasor_adi + "\\" + ogrno;
-                            System.IO.Directory.Move(tasinacak_klasor_yolu, hedef_klasor_yolu);
+                            Directory.Move(tasinacak_klasor_yolu, hedef_klasor_yolu);
                             Console.Clear();
                             Console.Write("{0} Sınıfında {1} numaralı öğrenci, {2} sınıfına taşınmıştır.", klasorler[2], ogrno, tasinacak_klasor_adi);
                             Console.ReadKey();
